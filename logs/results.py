@@ -1,20 +1,62 @@
-#!/usr/local/bin/python3
+#!/usr/local/bin/python
+
 import argparse
 import os
 import time
 import shutil
-
+import pandas as pd
 import ast
- 
+import matplotlib.pyplot as plt
 
-parser = argparse.ArgumentParser(description='PyTorch Cifar10 Cifar100 survey')
-parser.add_argument('-d', '--depth', default=20, type=int, metavar='N', help='depth of experiment whose results to investigate')
-parser.add_argument('-c', '--cifar', default=10, type=int, metavar='N', help='cifar dataset whose results to investigate')
-parser.add_argument('-t', '--task', default='', type=str, help='task parameter whose results to investigate')
 
-def main():
-    args = parser.parse_args()
-    read_logs(args.depth, args.cifar, args.task)
+def get_test_and_train_logs(depth, cifar, hyper_param):
+    data = read_logs(depth, cifar, hyper_param)
+
+    test_summarised_df = prepare_summary_df(data.get("test"))
+    train_summarised_df = prepare_summary_df(data.get("train"))
+
+    df_name = "resnet{depth}-cifar-{cifar}{hyper_param}".format(depth=depth, cifar=cifar, hyper_param=hyper_param)
+
+    df_test = prepare_df_object(test_summarised_df, df_name + "_test" )
+    df_train = prepare_df_object(train_summarised_df, df_name + "_train" ) 
+    return {
+        "train" : df_train,
+        "test"  : df_test
+    }
+
+def read_logs(depth=20, cifar=10, hyper_param=""):
+    filename = "./resnet-{depth}/resnet{depth}-cifar-{cifar}{hyper_param}.log".format(depth=depth, cifar=cifar, hyper_param=hyper_param)
+
+    if not os.path.isfile(filename):
+        return
+
+    file_handle = open(filename, "r")
+    file_contents = file_handle.readlines()
+
+    train_batches = []
+    test_batches = []
+
+    train_batch = []
+    test_batch = []
+
+    for line in file_contents:
+        if 'Epoch' in line:
+            train_batch.append(parse_epoch(line))
+            if len(test_batch):
+                test_batches.append(test_batch)
+
+            test_batch = []
+        if 'Test' in line:
+            test_batch.append(parse_test(line))
+            if len(train_batch):
+                train_batches.append(train_batch)
+
+            train_batch = []
+
+    return {
+        "train" : train_batches,
+        "test"   : test_batches
+    }
 
 def parse_epoch(line):
     """
@@ -72,37 +114,59 @@ def parse_test(line):
 
     return test
 
-def read_logs(depth, cifar, task):
-    filename = "./resnet-{depth}/resnet{depth}-cifar-{cifar}{task}.log".format(depth=depth, cifar=cifar, task=task)
+def prepare_summary_df(dfs):
+    stats_col_params = ["mean","std", "min", "max"]
+    stats_df_src = []
+    for batch in dfs:
+        stats = pd.DataFrame(batch).describe().loc[stats_col_params]
+        new_series = {}
+        for i in stats.columns:
+            for j in stats_col_params:
+                new_series[i+"_"+j] = stats.loc[j][i]
 
-    if not os.path.isfile(filename):
-        return
+        stats_df_src.append(new_series)
 
-    file_handle = open(filename, "r")
-    file_contents = file_handle.readlines()
+    return pd.DataFrame(stats_df_src)
 
-    epochs = []
-    tests = []
 
-    train_batch = []
-    test_batch = []
+# prepares the dict of dataframe object 
 
-    for line in file_contents:
-        if 'Epoch' in line:
-            train_batch.append(parse_epoch(line))
-            if len(test_batch):
-                tests.append(test_batch)
+def prepare_df_object(df, name ):
+    return {
+        "name" : name,
+        "stats" : df.describe(),
+        "df" : df
+    }
 
-            test_batch = []
-        if 'Test' in line:
-            test_batch.append(parse_test(line))
-            if len(train_batch):
-                epochs.append(train_batch)
 
-            train_batch = []
+def compare_dfs(list_of_dicts_of_dfs, list_params, print_to_file = ""):
+    """ compare  reults of different logs """
 
-    print(epochs[2])
-    print(tests[2])
+    # find the dfs intersection
+    # find the mean sqaure difference
+    # find the min and max difference 
 
-if __name__=='__main__':
-    main()
+    param_comparison = {}
+
+    for param in list_params:
+        plot_diff = pd.DataFrame()
+        for df_obj in list_of_dicts_of_dfs:
+            plot_diff[df_obj.get("name") + "_" + param] = df_obj.get("df")[param]
+        param_comparison[param] = plot_diff
+        
+        if print_to_file:
+            plot = plot_diff.plot()
+
+            plt.title(param)
+            plt.savefig(print_to_file + ".png", dpi=144)
+            plt.close() 
+
+            plot_log = plot_diff.plot(logy=True) 
+
+            plt.title('log-graph ' + param)
+            plt.savefig(print_to_file + "-log.png")
+            plt.close() 
+
+
+    # plot the comparisons
+    return param_comparison
