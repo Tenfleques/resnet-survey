@@ -13,8 +13,8 @@ from results import *
 parser = argparse.ArgumentParser(description='PyTorch Cifar10 Cifar100 survey')
 parser.add_argument('-d', '--depth', default=20, type=int, metavar='N', help='depth of experiment whose results to investigate')
 parser.add_argument('-c', '--cifar', default=10, type=int, metavar='N', help='cifar dataset whose results to investigate')
-parser.add_argument('-p', '--params', default='-lr-.01,-lr-.02,-lr-.2,-lr-.5,-lr-1.0,-epochs-80,-epochs-320,-mini-batch-64,-mini-batch-256', type=str, help='hyper-params variant separated by commas whose results to investigate')
-parser.add_argument('-m', '--metrics', default='loss_val_mean,acc_val_mean', type=str, help='metrics columns separated by commas for which the graphs are based on ')
+parser.add_argument('-p', '--params', default='-lr-.01,-lr-.02,-lr-.2,-lr-.5,-lr-1.0,-epochs-80,-epochs-320,-mini-batch-64,-mini-batch-256', type=str, help='hyper-params variants separated by commas whose results to investigate')
+parser.add_argument('-m', '--metrics', default='loss_val_mean,acc_val_mean', type=str, help='metrics columns separated by commas for which the charts are based on ')
 
 
 def main():
