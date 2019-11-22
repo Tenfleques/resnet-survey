@@ -24,19 +24,28 @@ git clone https://github.com/Tenfleques/resnet-survey.git
 In this project, the network structure is defined in the models folder, the script ```gen_mean_std.py``` is used to calculate
 the mean and standard deviation value of the dataset.
 
-1. run ./run.sh -d <depth = 20|56|110 default=20> -c <cifar dataset = 10|100 default=10>
+1. run ./run.sh -d &lt;depth = 20|56|110 default=20&gt; -c &lt;cifar dataset = 10|100 default=10&gt;
 
 This will train and dump the history in the logs folder.
     ```
         logs/
+
          |_____ resnet-20/
-                |_____ charts/
+
+                |_____ charts/ 
+
                 ...
+
          |_____ resnet-56/
+
                 |_____ charts/
+
                 ...
+
          |_____ resnet-110/
+
                 |_____ charts/
+
                 ...
     ```
 After training, the training log will be recorded in the .log file, the best model(on the test set) 
@@ -46,12 +55,17 @@ will be stored in the fdir.
 Otherwise, download the datasets and decompress them and put them in the ```data``` folder.
 
 2. run ./investigate-models.sh 
-    -d <depth = 20|56|110 default=20> 
-    -c <cifar dataset = 10|100 default=10> 
-    -p <hyper-params variants separated by commas whose results to investigate = -lr-.01|-lr-.02|-lr-.2|-lr-.5|-lr-1.0|-epochs-80|-epochs-320|-mini-batch-64|-mini-batch-256 default='-lr-.01,-lr-.02,-lr-.2,-lr-.5,-lr-1.0,-epochs-80,-epochs-320,-mini-batch-64,-mini-batch-256'>
-    -m <metrics to compare = loss_val_mean|acc_val_mean default='loss_val_mean,acc_val_mean'>
 
-4. Test
+    -d &lt;depth = 20|56|110 default=20&gt; 
+
+    -c &lt;cifar dataset = 10|100 default=10&gt; 
+
+    -p &lt;hyper-params variants separated by commas whose results to investigate = -lr-.01|-lr-.02|-lr-.2|-lr-.5|-lr-1.0|-epochs-80|-epochs-320|-mini-batch-64|-mini-batch-256 default='-lr-.01,-lr-.02,-lr-.2,-lr-.5,-lr-1.0,-epochs-80,-epochs-320,-mini-batch-64,-mini-batch-256'&gt;
+
+    -m &lt;metrics to compare = loss_val_mean|acc_val_mean default='loss_val_mean,acc_val_mean'&gt;
+
+
+3. Test
 
 ```
 CUDA_VISIBLE_DEVICES=0 python main.py -e --resume=fdir/model_best.pth.tar
@@ -66,21 +80,18 @@ model = resnet20_cifar(num_classes=100)
 ```
 
 ## Results
-**Note**:The results as follow are got by only one single experiment.
 
-**We got comparable or even better results than the original papers, the experiment settings are totally follow 
-the original ones**
 
-### ResNet
+### ResNet cifar-10
 
-layers|#params|error(%)
-:---:|:---:|:---:
-20|0.27M|8.33
-32|0.46M|7.36
-44|0.66M|6.77
-56|0.85M|6.73
-110|1.7M|**6.13**
-1202|19.4M|-
+hyper params|layers|error(%)|prec(%)|
+:---:|:---:|:---:|:---:
+
+### ResNet cifar-100
+
+hyper params|layers|error(%)|prec(%)|
+:---:|:---:|:---:|:---:
+
 
 
 # References:
