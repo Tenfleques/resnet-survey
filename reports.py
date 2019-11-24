@@ -38,13 +38,7 @@ params_kv = {
 }
 
 def main():
-    args = parser.parse_args()
-
-    list_of_hyper_param_variants = [""]
-
-    list_of_hyper_param_variants += [params_kv.get(k) for k in args.params.split(",") if k in params_kv.keys()]
-
-    metrics = args.metrics.split(",") 
+    args = parser.parse_args() 
 
     depths = args.depth.split(",")
     cifars = args.cifar.split(",")
@@ -52,19 +46,39 @@ def main():
 
     if args.logs:
         logs_dir = 'logs-' + args.logs + "/"
+    
+    run(depths=depths, 
+            cifars=cifars, 
+            hyper_params=args.params,
+            metrics=args.metrics,
+            logs_dir='logs/'
+            )
 
+def run(depths=[20,56,110], 
+            cifars=[10,100], 
+            hyper_params='lr.01,lr.02,lr.2,lr.5,lr1.0,e80,e320,mb64,mb256',
+            metrics='loss_val_mean,acc_val_mean',
+            logs_dir='logs/'
+            ):
 
+    metrics = metrics.split(",")
+
+    list_of_hyper_param_variants = [""]
+
+    list_of_hyper_param_variants += [params_kv.get(k) for k in hyper_params.split(",") if k in params_kv.keys()]
+
+    logs_table = []
     for depth in depths:  
         for cifar in cifars:
-            get_metric_logs(list_of_hyper_param_variants, metrics, depth, cifar, logs_dir)
-
-
-        
+            logs_table += get_metric_logs(list_of_hyper_param_variants, metrics, depth, cifar, logs_dir)
+    
+    return logs_table
+       
 
 def get_metric_logs(list_of_hyper_param_variants, metrics, depth, cifar, logs_dir = "logs/"):
     logs_data_train = []
     logs_data_test = []
-    logs_final_prec = []    
+    logs_table = []    
 
     for hyper_param_variant in list_of_hyper_param_variants:
         name = "resnet{depth}-cifar-{cifar}{hyper_param_variant}".format(depth=depth, cifar=cifar,hyper_param_variant=hyper_param_variant)
@@ -80,27 +94,37 @@ def get_metric_logs(list_of_hyper_param_variants, metrics, depth, cifar, logs_di
         logs_data_test.append(dfs.get("test"))
         logs_data_train.append(dfs.get("train"))
 
-        logs_final_prec.append({
+        hyper_keys_dict = {
             "name" : name,
             "cifar" : cifar,
             "layer" : depth,
-            "epochs" : "",
-            "batxh-size" : "",
-            "lr" : "",
-            "momentum" : 0.9,
-            "residual-block" : "",
-            "skip-connections" : "",
-            "train-data-size" : "",
-            "weight-decay" : "",
-            "prec" : dfs.get("prec")
-            # "train_stats": dfs.get("train").describe(),
-            # "test_stats": dfs.get("test").describe()
-        })   
+            "epochs" : 160,
+            "minibatch" : 128,
+            "lr" : 0.1,
+            "rb" : -1,
+            "sc" : -1,
+            "tds" : 1.0,
+            "prec" : dfs.get("prec"),
+            "train_avg_loss" : dfs.get("train_mean_avg_loss"),
+            "train_val_loss" : dfs.get("train_mean_val_loss"),
+            "test_avg_loss" : dfs.get("test_mean_avg_loss"),
+            "test_val_loss" : dfs.get("test_mean_avg_loss")
+        }
+
+        if hyper_param_variant in params_kv.values():
+            hyper_key_arr = hyper_param_variant.split("-")
+            hyper_key_val = hyper_key_arr.pop()
+            hyper_key_key = ''.join(hyper_key_arr[1:])
+            hyper_keys_dict[hyper_key_key] = hyper_key_val
+            
+
+        logs_table.append(hyper_keys_dict)   
+ 
 
     iterate_metrics(metrics, logs_data_test, depth, cifar, "test", logs_dir)
     iterate_metrics(metrics, logs_data_train, depth, cifar, "train", logs_dir)
 
-    return
+    return logs_table
 
 def iterate_metrics(metrics, logs_data, depth, cifar, t_set, logs_dir = "logs/"):
     len_dfs = len(logs_data)
@@ -127,10 +151,10 @@ def print_comparison_chart(logs_compare, metric, depth, cifar, t_set, logs_dir =
 
     os.makedirs(chart_path, exist_ok=True)
 
-
-    comparison_chart = compare_dfs(logs_compare, [metric], chart_path + "/" + filename)
-
-    return comparison_chart
+    if not os.path.isfile(chart_path + "/" + filename + ".png"):
+        comparison_chart = compare_dfs(logs_compare, [metric], chart_path + "/" + filename)
+        return comparison_chart
+    return
 
 
 if __name__=='__main__':

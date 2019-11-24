@@ -15,15 +15,17 @@ def get_test_and_train_logs(depth, cifar, hyper_param, logs_dir = "logs/"):
     test_summarised_df = prepare_summary_df(data.get("test"))
     train_summarised_df = prepare_summary_df(data.get("train"))
 
-    
-
-    df_test = prepare_df_object(test_summarised_df, hyper_param )
-    df_train = prepare_df_object(train_summarised_df, hyper_param ) 
+    df_test = prepare_df_object(test_summarised_df.get("df"), hyper_param )
+    df_train = prepare_df_object(train_summarised_df.get("df"), hyper_param ) 
     
     return {
         "train" : df_train,
         "test"  : df_test,
-        "prec"  : data.get("final_accuracy")
+        "prec"  : data.get("final_accuracy"),
+        "train_mean_avg_loss" : train_summarised_df.get("mean_avg_loss"),
+        "train_mean_val_loss" : train_summarised_df.get("mean_val_loss"),
+        "test_mean_avg_loss" : test_summarised_df.get("mean_avg_loss"),
+        "test_mean_val_loss" : test_summarised_df.get("mean_val_loss"),
     }
 
 def read_logs(depth=20, cifar=10, hyper_param="", logs_dir = "logs/"):
@@ -57,8 +59,6 @@ def read_logs(depth=20, cifar=10, hyper_param="", logs_dir = "logs/"):
             train_batch = []
         if "Prec" in line:
             acc = line.strip().replace("%","").split()[2]
-
-    #print("final accuracy - {filename} {acc}".format(acc=acc, filename=filename))
 
     return {
         "train" : train_batches,
@@ -134,7 +134,13 @@ def prepare_summary_df(dfs):
 
         stats_df_src.append(new_series)
 
-    return pd.DataFrame(stats_df_src)
+    df = pd.DataFrame(stats_df_src)
+    desc_df = df.describe()
+    return {    
+        "df" : df,
+        "mean_avg_loss" : desc_df["loss_avg_mean"]["mean"],
+        "mean_val_loss" : desc_df["loss_val_mean"]["mean"],
+    }
 
 
 # prepares the dict of dataframe object 
@@ -143,7 +149,9 @@ def prepare_df_object(df, name ):
     return {
         "name" : name,
         "stats" : df.describe(),
-        "df" : df
+        "df" : df,
+        "mean_val_loss" : df.describe().loc["mean"]["loss_val_mean"],
+        "mean_avg_loss" : df.describe().loc["mean"]["loss_avg_mean"]
     }
 
 
@@ -161,7 +169,10 @@ def compare_dfs(list_of_dicts_of_dfs, list_params, print_to_file = ""):
     for param in list_params:
         plot_diff = pd.DataFrame()
         for df_obj in list_of_dicts_of_dfs:
-            plot_diff[df_obj.get("name") + "_" + param] = df_obj.get("df")[param]
+            hyper = df_obj.get("name")
+            if not hyper:
+                hyper = "base"
+            plot_diff[ hyper + "_" + param] = df_obj.get("df")[param]
        
         
         if print_to_file and plot_diff.shape[0]:
@@ -172,6 +183,7 @@ def compare_dfs(list_of_dicts_of_dfs, list_params, print_to_file = ""):
             plt.close() 
         
         param_comparison[param] = plot_diff
+
 
             # plot_log = plot_diff.plot(logy=True) 
 
