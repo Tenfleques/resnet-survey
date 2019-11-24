@@ -1,4 +1,4 @@
-# Experiments on CIFAR datasets with PyTorch
+# Experiments on CIFAR datasets with PyTorch implementation of ResNet.Hyperparameter adjustments
 
 This is a survey version forked from https://github.com/junyuseu/pytorch-cifar-models
 
