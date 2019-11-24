@@ -35,7 +35,7 @@ parser.add_argument('-ct', '--cifar-type', default='10', type=int, metavar='CT',
 best_prec = 0
 
 def main():
-    global args, best_prec
+    global best_prec
     args = parser.parse_args()
     use_gpu = torch.cuda.is_available()
 

@@ -280,7 +280,7 @@ def resnet44_cifar(**kwargs):
     return model
 
 def resnet50_cifar(**kwargs):
-    model = ResNet_Cifar(BasicBlock, [9, 9, 9], **kwargs)
+    model = ResNet_Cifar(BasicBlock, [8, 8, 8], **kwargs)
     return model
 
 def resnet56_cifar(**kwargs):
@@ -288,7 +288,7 @@ def resnet56_cifar(**kwargs):
     return model
 
 def resnet60_cifar(**kwargs):
-    model = ResNet_Cifar(BasicBlock, [9, 9, 9], **kwargs)
+    model = ResNet_Cifar(BasicBlock, [10, 10, 10], **kwargs)
     return model
 
 
