@@ -287,7 +287,7 @@ def resnet56_cifar(**kwargs):
     model = ResNet_Cifar(BasicBlock, [9, 9, 9], **kwargs)
     return model
 
-def resnet60_cifar(**kwargs):
+def resnet62_cifar(**kwargs):
     model = ResNet_Cifar(BasicBlock, [10, 10, 10], **kwargs)
     return model
 
