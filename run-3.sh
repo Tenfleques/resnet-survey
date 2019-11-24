@@ -56,7 +56,7 @@ if [ "$residual_block" -ne "$def_res"  ]; then
 
     if [ ! -f logs-3/resnet-${depth}/resnet${depth}-cifar-${ct}-rb-${residual_block}.log ]; then
     # adjust the residual-blocks
-        CUDA_VISIBLE_DEVICES=0 python main.py --epoch 160 --batch-size 128 --momentum 0.9 --wd 1e-4 -ct ${ct} -d ${depth} -rb ${residual_block} > logs-3/resnet-${depth}/resnet${depth}-cifar-${ct}-rb-${residual_block}.log
+        CUDA_VISIBLE_DEVICES=0 python main.py --epoch 160 --batch-size 128 --lr 0.1 --momentum 0.9 --wd 1e-4 -ct ${ct} -d ${depth} -rb ${residual_block} > logs-3/resnet-${depth}/resnet${depth}-cifar-${ct}-rb-${residual_block}.log
 
     fi
 fi
@@ -66,7 +66,7 @@ if [ "$skip_connections" -ne "$def_sc"  ]; then
 
     if [ ! -f logs-3/resnet-${depth}/resnet${depth}-cifar-${ct}-sc-${skip_connections}.log ]; then
     # adjust the skip-connections
-        CUDA_VISIBLE_DEVICES=0 python main.py --epoch 160 --batch-size 128 --momentum 0.9 --wd 1e-4 -ct ${ct} -d ${depth} -sc ${skip_connections} > logs-3/resnet-${depth}/resnet${depth}-cifar-${ct}-sc-${skip_connections}.log
+        CUDA_VISIBLE_DEVICES=0 python main.py --epoch 160 --batch-size 128 --lr 0.1 --momentum 0.9 --wd 1e-4 -ct ${ct} -d ${depth} -sc ${skip_connections} > logs-3/resnet-${depth}/resnet${depth}-cifar-${ct}-sc-${skip_connections}.log
 
     fi
 fi
@@ -79,7 +79,7 @@ if [ "$train_data_size" -ne "$def_tds"  ]; then
 
     if [ ! -f logs-3/resnet-${depth}/resnet${depth}-cifar-${ct}-tds-${train_data_size}.log ]; then
     #  adjust the skip-connections
-        CUDA_VISIBLE_DEVICES=0 python main.py --epoch 160 --batch-size 128 --momentum 0.9 --wd 1e-4 -ct ${ct} -d ${depth} -tds ${train_data_size} > logs-3/resnet-${depth}/resnet${depth}-cifar-${ct}-tds-${train_data_size}.log
+        CUDA_VISIBLE_DEVICES=0 python main.py --epoch 160 --batch-size 128 --lr 0.1 --momentum 0.9 --wd 1e-4 -ct ${ct} -d ${depth} -tds ${train_data_size} > logs-3/resnet-${depth}/resnet${depth}-cifar-${ct}-tds-${train_data_size}.log
 
     fi
 fi

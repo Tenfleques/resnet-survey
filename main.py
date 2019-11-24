@@ -35,7 +35,7 @@ parser.add_argument('-ct', '--cifar-type', default='10', type=int, metavar='CT',
 best_prec = 0
 
 def main():
-    global best_prec
+    global args, best_prec
     args = parser.parse_args()
     use_gpu = torch.cuda.is_available()
 
@@ -47,7 +47,7 @@ def main():
         resnet_depths = { 20 : resnet20_cifar, 
                           50 : resnet50_cifar, 
                           56 : resnet56_cifar, 
-                          60 : resnet60_cifar, 
+                          62 : resnet62_cifar, 
                           110: resnet110_cifar }
     
         model = resnet_depths.get(args.depth, resnet20_cifar)(num_classes=args.cifar_type)
