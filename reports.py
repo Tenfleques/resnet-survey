@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser(description='PyTorch Cifar10 Cifar100 survey')
 parser.add_argument('-d', '--depth', default='20,50,56,62,110', type=str, metavar='N', help='depth of experiment whose results to investigate')
 parser.add_argument('-c', '--cifar', default='10,100', type=str, metavar='N', help='cifar dataset whose results to investigate')
 parser.add_argument('-p', '--params', default='lr.01,lr.02,lr.2,lr.5,lr1.0,e80,e320,mb64,mb256,rb0,rb2,rb3,sc1,sc3,td5,td2', type=str, help='hyper-params variants separated by commas whose results to investigate')
-parser.add_argument('-m', '--metrics', default='loss_val_mean,acc_val_mean', type=str, help='metrics columns separated by commas for which the charts are based on ')
+parser.add_argument('-m', '--metrics', default='loss_val_mean,acc_val_mean,acc', type=str, help='metrics columns separated by commas for which the charts are based on ')
 parser.add_argument('-l', '--logs', default='', type=str, help='logs default or logs-3, type for logs-3')
 
 
