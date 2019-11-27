@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/resnet-survey/precache-manifest.d89beb227926eb0457b9fd3d44284c85.js"
+  "/resnet-survey/precache-manifest.2c2e8b973596ef4f075c34fe557eb692.js"
 );
 
 self.addEventListener('message', (event) => {
