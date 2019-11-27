@@ -17,7 +17,7 @@
     "layers": {
         "value": "20",
         "caption": "layers",
-        "is_image": false,
+        "is_image": true,
         "options": [
             {
                 "label": "20",
@@ -127,7 +127,7 @@
     },
     "sc": {
         "value": "",
-        "caption": "residual blocks",
+        "caption": "skip connections",
         "is_image": true,
         "options": [
             {
@@ -136,17 +136,17 @@
             },
             {
                 "label": "1",
-                "value": "2"
+                "value": "-sc-1"
             },
             {
-                "label": "2",
-                "value": "3"
+                "label": "3",
+                "value": "-sc-3"
             }
         ]
     },
     "tds": {
         "value": "",
-        "caption": "residual blocks",
+        "caption": "training dataset",
         "is_image": true,
         "options": [
             {

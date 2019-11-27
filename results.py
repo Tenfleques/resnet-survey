@@ -21,7 +21,7 @@ def get_test_and_train_logs(depth, cifar, hyper_param, logs_dir = "logs/"):
     return {
         "train" : df_train,
         "test"  : df_test,
-        "prec"  : data.get("final_accuracy"),
+        "prec"  : data.get("prec"),
         "train_mean_avg_loss" : train_summarised_df.get("mean_avg_loss"),
         "train_mean_val_loss" : train_summarised_df.get("mean_val_loss"),
         "test_mean_avg_loss" : test_summarised_df.get("mean_avg_loss"),
@@ -63,7 +63,7 @@ def read_logs(depth=20, cifar=10, hyper_param="", logs_dir = "logs/"):
     return {
         "train" : train_batches,
         "test"   : test_batches,
-        "final_accuracy": acc
+        "prec": acc
     }
 
 def parse_epoch(line):
@@ -155,7 +155,7 @@ def prepare_df_object(df, name ):
     }
 
 
-def compare_dfs(list_of_dicts_of_dfs, list_params, print_to_file = ""):
+def compare_dfs(list_of_dicts_of_dfs, list_params, prec, print_to_file = ""):
     """ compare  reults of different logs """
 
     # find the dfs intersection
@@ -172,13 +172,15 @@ def compare_dfs(list_of_dicts_of_dfs, list_params, print_to_file = ""):
             hyper = df_obj.get("name")
             if not hyper:
                 hyper = "base"
+
             plot_diff[ hyper + "_" + param] = df_obj.get("df")[param]
        
         
         if print_to_file and plot_diff.shape[0]:
+            print("writing to disk {f}".format(f=print_to_file))
             plot = plot_diff.plot()
 
-            plt.title(param )
+            plt.title(param + " prec: " + prec)
             plt.savefig(print_to_file + ".png", dpi=144)
             plt.close() 
         

@@ -11,14 +11,14 @@ class Stage extends Component {
         this.state = {
             hyper_params,
             images : {
-                root : "/logs/charts/"
+                root : "charts/"
             }
         }
         this.handleSelectChange = this.handleSelectChange.bind(this)
     }
 
-    renderImageControl(){
-        return this.collectImageNames(this.state.images, this.state.hyper_params);
+    renderImageControl(phase="train"){
+        return this.collectImageNames(this.state.images, this.state.hyper_params)[phase];
     }
     
     collectImageNames(images, hyper_params){
@@ -37,28 +37,44 @@ class Stage extends Component {
             if(hyper_params[hp].is_image && hyper_params[hp].value){
                 for (let i = 0; i < metrics.length; ++i){
                     let name = hyper_params[hp].value + metrics[i];
+                    if(hp == "layers"){
+                        if(hyper_params[hp].value == 50){
+                            name = "-l50" + metrics[i];
+                        }
+
+                        if (hyper_params[hp].value == 62){
+                            name = "-l62" + metrics[i];
+                        }
+                    }
+                    
+                    
 
                     let src = root + "-test_" +name + ".png"
     
-                    let test_image = <Image key={"test-image-" + i + hp} src={src} name={"Test " + name}/>
+                    let v_name = name.split("_")[0]
+
+                    let test_image = <Image key={"test-image-" + i + hp} src={src} name={"Test " + v_name}/>
                     test_images.push(test_image);
 
 
                     let src_train = root + "-train_" + name + ".png"
+
+                    v_name = name.split("_")[0]
     
-                    let train_image = <Image key ={"test-image-" + i + hp} src={src_train} name={"Train " + name}/>
+                    let train_image = <Image key ={"test-image-" + i + hp} src={src_train} name={"Train " + v_name}/>
                     train_images.push(train_image);
                 } 
             }    
         }    
-        return (
-            train_images,
-            test_images
-        )
+        return {
+            train :train_images,
+            test : test_images
+        }
     }
     renderHyperControls(){
         let selects = []
         for (var i in this.state.hyper_params){
+
             selects.push(<Select 
                             key={"select-" + i} 
                             select={hyper_params[i]} 
@@ -90,9 +106,14 @@ class Stage extends Component {
                 <div className="knob-box col-12 col-md-6 col-lg-3 mt-4">
                     {this.renderHyperControls()}
                 </div>
-                <div className="col-12 col-md-6 col-lg-9">
+                <div className="col-12 col-md-6 col-lg-9 mh-85 mh-md-85 y-scroll-auto">
                     <div className="row">
-                        {this.renderImageControl()}
+                        <div className="col-md-10 col-lg-6">
+                            {this.renderImageControl("train")}
+                        </div> 
+                        <div className="col-md-10 col-lg-6">
+                            {this.renderImageControl("test")}
+                        </div>                        
                     </div>
                 </div>                
             </div>
