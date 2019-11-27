@@ -34,10 +34,10 @@ done
 
 
 # run top performing hyper-params for precision and loss
-if [ ! -f public/logs/resnet-${depth}/resnet${depth}-cifar-${ct}-epochs-${ep}-mini-batch-${mb}.log ]; then
+if [ ! -f logs/resnet-${depth}/resnet${depth}-cifar-${ct}-epochs-${ep}-mini-batch-${mb}.log ]; then
     echo "########## resnet-${depth} dataset-${ct} epochs ${ep} , batch-size ${mb} , learning rate 0.1 #########"
 
-    CUDA_VISIBLE_DEVICES=0 python main.py --epoch ${ep} --batch-size ${mb} --lr 0.1 --momentum 0.9 --wd 1e-4 -ct ${ct} -d ${depth} > public/logs/resnet-${depth}/resnet${depth}-cifar-${ct}-epochs-${ep}-mini-batch-${mb}.log
+    CUDA_VISIBLE_DEVICES=0 python main.py --epoch ${ep} --batch-size ${mb} --lr 0.1 --momentum 0.9 --wd 1e-4 -ct ${ct} -d ${depth} > logs/resnet-${depth}/resnet${depth}-cifar-${ct}-epochs-${ep}-mini-batch-${mb}.log
 
 fi
 

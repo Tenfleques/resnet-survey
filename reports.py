@@ -42,7 +42,7 @@ def main():
 
     depths = args.depth.split(",")
     cifars = args.cifar.split(",")
-    logs_dir = 'public/logs/'
+    logs_dir = 'logs/'
 
     if args.logs:
         logs_dir = 'logs-' + args.logs + "/"
@@ -58,7 +58,7 @@ def run(depths=[20,56,110],
             cifars=[10,100], 
             hyper_params='lr.01,lr.02,lr.2,lr.5,lr1.0,e80,e320,mb64,mb256',
             metrics='loss_val_mean,acc_val_mean',
-            logs_dir='public/logs/'
+            logs_dir='logs/'
             ):
 
     metrics = metrics.split(",")
@@ -132,19 +132,19 @@ def iterate_metrics(metrics, logs_data, depth, cifar, t_set, logs_dir = "logs/")
         for i in range(1,len_dfs):
             # compare the base hyper-params with every other change
             logs_compare = [logs_data[0], logs_data[i]]
-            print_comparison_chart(logs_compare, metric, depth, cifar, t_set, logs_dir)
+            print_comparison_chart(logs_compare, metric, depth, cifar, t_set)
 
-        if len_dfs == 9:
+        if len_dfs > 9:
             # compare the learning rates hyper params changes + the base 
-            print_comparison_chart(logs_data[:6], metric, depth, cifar, t_set, logs_dir)
+            print_comparison_chart(logs_data[:6], metric, depth, cifar, t_set)
 
             # compare the epochs hyper params changes + the base 
-            print_comparison_chart([logs_data[0]] +  logs_data[6:8], metric, depth, cifar, t_set, logs_dir)
+            print_comparison_chart([logs_data[0]] +  logs_data[6:8], metric, depth, cifar, t_set)
 
             # compare the batch-size hyper params changes + the base 
-            print_comparison_chart([logs_data[0]] + logs_data[8:], metric, depth, cifar, t_set, logs_dir)
+            print_comparison_chart([logs_data[0]] + logs_data[8:], metric, depth, cifar, t_set)
 
-def print_comparison_chart(logs_compare, metric, depth, cifar, t_set, logs_dir = "logs/"):
+def print_comparison_chart(logs_compare, metric, depth, cifar, t_set, logs_dir = "build/logs/"):
     chart_path = "{logs_dir}charts/resnet-{depth}".format(logs_dir=logs_dir, depth=depth)
 
     filename = "cifar-{cifar}-{t}{f}".format(t=t_set, f="_".join([a.get("name") for a in logs_compare] + [metric]), cifar=cifar)
