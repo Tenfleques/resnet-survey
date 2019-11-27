@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7f4bd3753056a3872fde09374fe1f056",
+    "revision": "a4b42724cb11d1e85c3798ff17d9e55e",
     "url": "/resnet-survey/index.html"
   },
   {
-    "revision": "ed101452666fd8aded05",
+    "revision": "e4224a39c5ddf9e3b6c8",
     "url": "/resnet-survey/static/css/main.bb7e1cfd.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/resnet-survey/static/js/2.8995a736.chunk.js"
   },
   {
-    "revision": "ed101452666fd8aded05",
-    "url": "/resnet-survey/static/js/main.b06c74ca.chunk.js"
+    "revision": "e4224a39c5ddf9e3b6c8",
+    "url": "/resnet-survey/static/js/main.f978b4cb.chunk.js"
   },
   {
     "revision": "19ea075a07cb6e78ee22",
