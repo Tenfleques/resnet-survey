@@ -1,0 +1,166 @@
+{
+    "cifar": {
+        "value": "10",
+        "caption": "cifar",
+        "is_image": false,
+        "options": [
+            {
+                "label": "10",
+                "value": "10"
+            },
+            {
+                "label": "100",
+                "value": "100"
+            }
+        ]
+    },
+    "layers": {
+        "value": "20",
+        "caption": "layers",
+        "is_image": false,
+        "options": [
+            {
+                "label": "20",
+                "value": "20"
+            },
+            {
+                "label": "50",
+                "value": "50"
+            },
+            {
+                "label": "56",
+                "value": "56"
+            },
+            {
+                "label": "62",
+                "value": "62"
+            },
+            {
+                "label": "110",
+                "value": "110"
+            }
+        ]
+    },
+    "lr": {
+        "value": "-lr-.01",
+        "caption": "learning rate",
+        "is_image": true,
+        "options": [
+            {
+                "label": "0.01",
+                "value": "-lr-.01"
+            },
+            {
+                "label": "0.02",
+                "value": "-lr-.02"
+            },
+            {
+                "label": "0.2",
+                "value": "-lr-.2"
+            },
+            {
+                "label": "0.5",
+                "value": "-lr-.5"
+            },
+            {
+                "label": "1.0",
+                "value": "-lr-1.0"
+            }
+        ]
+    },
+    "epochs": {
+        "value": "-epochs-160",
+        "caption": "number of epochs",
+        "is_image": true,
+        "options": [
+            {
+                "label": "80",
+                "value": "-epochs-80"
+            },
+            {
+                "label": "160",
+                "value": "-epochs-160"
+            },
+            {
+                "label": "320",
+                "value": "-epochs-320"
+            }
+        ]
+    },
+    "mb": {
+        "value": "-mini-batch-128",
+        "caption": "mini-batch size",
+        "is_image": true,
+        "options": [
+            {
+                "label": "64",
+                "value": "-mini-batch-64"
+            },
+            {
+                "label": "128",
+                "value": "-mini-batch-128"
+            },
+            {
+                "label": "256",
+                "value": "-mini-batch-256"
+            }
+        ]
+    },
+    "rb": {
+        "value": "",
+        "caption": "residual blocks",
+        "is_image": true,
+        "options": [
+            {
+                "label": "-1",
+                "value": ""
+            },
+            {
+                "label": "1",
+                "value": "-rb-2"
+            },
+            {
+                "label": "2",
+                "value": "-rb-2"
+            }
+        ]
+    },
+    "sc": {
+        "value": "",
+        "caption": "residual blocks",
+        "is_image": true,
+        "options": [
+            {
+                "label": "-1",
+                "value": ""
+            },
+            {
+                "label": "1",
+                "value": "2"
+            },
+            {
+                "label": "2",
+                "value": "3"
+            }
+        ]
+    },
+    "tds": {
+        "value": "",
+        "caption": "residual blocks",
+        "is_image": true,
+        "options": [
+            {
+                "label": "1",
+                "value": ""
+            },
+            {
+                "label": "0.5",
+                "value": "-tds-0.5"
+            },
+            {
+                "label": "0.2",
+                "value": "-tds-0.2"
+            }
+        ]
+    }
+}

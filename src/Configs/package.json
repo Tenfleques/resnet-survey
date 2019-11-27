@@ -1,0 +1,4 @@
+{
+    "appname" : "ResNet survey",
+    "description": "Investigating perfomances of ResNet implementation on CIFAR-10 and CIFAR-100 by tuning hyper-parameters"
+}
