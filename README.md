@@ -94,7 +94,7 @@ model = resnet20_cifar(num_classes=100)
 ### ResNet cifar-10
 
 layers|epochs|mini-batch|learning-rate|residual-blocks|skip-connections|train-data size|precision|train avg_loss|train val_loss|test avg_loss|test val_loss
-:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 110|160|64|0.1|-1|-1|1.0|94.03|0.214399|0.213416|0.404220|0.404220
 110|160|128|.2|-1|-1|1.0|94.00|0.239813|0.236899|0.464519|0.464519
 56|160|128|.2|-1|-1|1.0|93.86|0.217774|0.216203|0.445965|0.445965
@@ -126,11 +126,11 @@ layers|epochs|mini-batch|learning-rate|residual-blocks|skip-connections|train-da
 110|80|128|0.1|-1|-1|1.0|87.14|0.353701|0.352471|0.539776|0.539776
 56|80|128|0.1|-1|-1|1.0|85.17|0.316144|0.315000|0.503280|0.503280
 
+
 ### ResNet cifar-100
 
 layers|epochs|mini-batch|learning-rate|residual-blocks|skip-connections|train-data size|precision|train avg_loss|train val_loss|test avg_loss|test val_loss
-:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-layer|epochs|minibatch|lr|rb|sc|tds|prec|train_avg_loss|train_val_loss|test_avg_loss|test_val_loss
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 110|160|64|0.1|-1|-1|1.0|72.34|0.714020|0.721438|1.614977|1.614977
 110|160|128|0.1|-1|-1|1.0|72.14|0.607312|0.613392|1.718227|1.718227
 110|160|128|.2|-1|-1|1.0|71.97|0.752711|0.762594|1.747861|1.747861

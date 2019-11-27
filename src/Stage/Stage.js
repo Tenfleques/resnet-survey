@@ -36,14 +36,17 @@ class Stage extends Component {
         for (let hp in hyper_params){
             if(hyper_params[hp].is_image && hyper_params[hp].value){
                 for (let i = 0; i < metrics.length; ++i){
-                    let src = root + "-test_" + hyper_params[hp].value + metrics[i] + ".png"
+                    let name = hyper_params[hp].value + metrics[i];
+
+                    let src = root + "-test_" +name + ".png"
     
-                    let test_image = <Image key={"test-image-" + i + hp} src={src}/>
+                    let test_image = <Image key={"test-image-" + i + hp} src={src} name={"Test " + name}/>
                     test_images.push(test_image);
 
-                    let src_train = root + "-train_" + hyper_params[hp].value + metrics[i] + ".png"
+
+                    let src_train = root + "-train_" + name + ".png"
     
-                    let train_image = <Image key ={"test-image-" + i + hp} src={src_train}/>
+                    let train_image = <Image key ={"test-image-" + i + hp} src={src_train} name={"Train " + name}/>
                     train_images.push(train_image);
                 } 
             }    
