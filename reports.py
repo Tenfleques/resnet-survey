@@ -42,7 +42,7 @@ def main():
 
     depths = args.depth.split(",")
     cifars = args.cifar.split(",")
-    logs_dir = 'logs/'
+    logs_dir = 'public/logs/'
 
     if args.logs:
         logs_dir = 'logs-' + args.logs + "/"
@@ -51,14 +51,14 @@ def main():
             cifars=cifars, 
             hyper_params=args.params,
             metrics=args.metrics,
-            logs_dir='logs/'
+            logs_dir=logs_dir
             )
 
 def run(depths=[20,56,110], 
             cifars=[10,100], 
             hyper_params='lr.01,lr.02,lr.2,lr.5,lr1.0,e80,e320,mb64,mb256',
             metrics='loss_val_mean,acc_val_mean',
-            logs_dir='logs/'
+            logs_dir='public/logs/'
             ):
 
     metrics = metrics.split(",")

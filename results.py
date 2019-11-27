@@ -9,7 +9,7 @@ import ast
 import matplotlib.pyplot as plt
 
 
-def get_test_and_train_logs(depth, cifar, hyper_param, logs_dir = "logs/"):
+def get_test_and_train_logs(depth, cifar, hyper_param, logs_dir = "public/logs/"):
     data = read_logs(depth, cifar, hyper_param, logs_dir)
 
     test_summarised_df = prepare_summary_df(data.get("test"))
@@ -28,7 +28,7 @@ def get_test_and_train_logs(depth, cifar, hyper_param, logs_dir = "logs/"):
         "test_mean_val_loss" : test_summarised_df.get("mean_val_loss"),
     }
 
-def read_logs(depth=20, cifar=10, hyper_param="", logs_dir = "logs/"):
+def read_logs(depth=20, cifar=10, hyper_param="", logs_dir = "public/logs/"):
     filename = "{logs_dir}resnet-{depth}/resnet{depth}-cifar-{cifar}{hyper_param}.log".format(logs_dir=logs_dir,depth=depth, cifar=cifar, hyper_param=hyper_param)
 
     if not os.path.isfile(filename):
