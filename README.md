@@ -23,7 +23,7 @@ git clone https://github.com/Tenfleques/resnet-survey.git
 In this project, the network structure is defined in the models folder, the script ```gen_mean_std.py``` is used to calculate
 the mean and standard deviation value of the dataset.
 
-1. run 
+2. run 
 ```
 ./run.sh -d <depth = 20|50|56|62|110 default=20> -c <cifar dataset = 10|100 default=10>
 ```
@@ -56,7 +56,7 @@ will be stored in the fdir.
 **Note**:For first training, cifar10 or cifar100 dataset will be downloaded, so make sure your comuter is online.
 Otherwise, download the datasets and decompress them and put them in the ```data``` folder.
 
-2. run 
+3. run 
 ```
 ./investigate-models.sh 
 
@@ -74,7 +74,7 @@ Otherwise, download the datasets and decompress them and put them in the ```data
 ```
 
 
-3. Test
+4. Test
 
 ```
 CUDA_VISIBLE_DEVICES=0 python main.py -e --resume=fdir/model_best.pth.tar
