@@ -1,21 +1,21 @@
 {
   "files": {
     "main.css": "/resnet-survey/static/css/main.bb7e1cfd.chunk.css",
-    "main.js": "/resnet-survey/static/js/main.378120c3.chunk.js",
-    "main.js.map": "/resnet-survey/static/js/main.378120c3.chunk.js.map",
+    "main.js": "/resnet-survey/static/js/main.b6a60eba.chunk.js",
+    "main.js.map": "/resnet-survey/static/js/main.b6a60eba.chunk.js.map",
     "runtime-main.js": "/resnet-survey/static/js/runtime-main.1e3f709a.js",
     "runtime-main.js.map": "/resnet-survey/static/js/runtime-main.1e3f709a.js.map",
-    "static/js/2.8995a736.chunk.js": "/resnet-survey/static/js/2.8995a736.chunk.js",
-    "static/js/2.8995a736.chunk.js.map": "/resnet-survey/static/js/2.8995a736.chunk.js.map",
+    "static/js/2.4efb9cf6.chunk.js": "/resnet-survey/static/js/2.4efb9cf6.chunk.js",
+    "static/js/2.4efb9cf6.chunk.js.map": "/resnet-survey/static/js/2.4efb9cf6.chunk.js.map",
     "index.html": "/resnet-survey/index.html",
-    "precache-manifest.d33234b9c0cbc07ae6b23165f05883bb.js": "/resnet-survey/precache-manifest.d33234b9c0cbc07ae6b23165f05883bb.js",
+    "precache-manifest.6c5b14d663cc40d3c8c4b66c3b164e7e.js": "/resnet-survey/precache-manifest.6c5b14d663cc40d3c8c4b66c3b164e7e.js",
     "service-worker.js": "/resnet-survey/service-worker.js",
     "static/css/main.bb7e1cfd.chunk.css.map": "/resnet-survey/static/css/main.bb7e1cfd.chunk.css.map"
   },
   "entrypoints": [
     "static/js/runtime-main.1e3f709a.js",
-    "static/js/2.8995a736.chunk.js",
+    "static/js/2.4efb9cf6.chunk.js",
     "static/css/main.bb7e1cfd.chunk.css",
-    "static/js/main.378120c3.chunk.js"
+    "static/js/main.b6a60eba.chunk.js"
   ]
 }

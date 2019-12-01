@@ -17,7 +17,7 @@
     "layers": {
         "value": "20",
         "caption": "layers",
-        "is_image": true,
+        "is_image": false,
         "options": [
             {
                 "label": "20",
@@ -42,10 +42,14 @@
         ]
     },
     "lr": {
-        "value": "-lr-.01",
+        "value": "",
         "caption": "learning rate",
         "is_image": true,
         "options": [
+            {
+                "label": "base 0.1",
+                "value": ""
+            },
             {
                 "label": "0.01",
                 "value": "-lr-.01"
@@ -69,7 +73,7 @@
         ]
     },
     "epochs": {
-        "value": "-epochs-160",
+        "value": "",
         "caption": "number of epochs",
         "is_image": true,
         "options": [
@@ -78,8 +82,8 @@
                 "value": "-epochs-80"
             },
             {
-                "label": "160",
-                "value": "-epochs-160"
+                "label": "base 160",
+                "value": ""
             },
             {
                 "label": "320",
@@ -88,7 +92,7 @@
         ]
     },
     "mb": {
-        "value": "-mini-batch-128",
+        "value": "",
         "caption": "mini-batch size",
         "is_image": true,
         "options": [
@@ -97,8 +101,8 @@
                 "value": "-mini-batch-64"
             },
             {
-                "label": "128",
-                "value": "-mini-batch-128"
+                "label": "base 128",
+                "value": ""
             },
             {
                 "label": "256",
@@ -112,7 +116,7 @@
         "is_image": true,
         "options": [
             {
-                "label": "-1",
+                "label": "base -1",
                 "value": ""
             },
             {
@@ -131,7 +135,7 @@
         "is_image": true,
         "options": [
             {
-                "label": "-1",
+                "label": "base -1",
                 "value": ""
             },
             {
@@ -150,7 +154,7 @@
         "is_image": true,
         "options": [
             {
-                "label": "1",
+                "label": "base 1",
                 "value": ""
             },
             {

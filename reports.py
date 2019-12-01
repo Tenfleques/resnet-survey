@@ -16,6 +16,7 @@ parser.add_argument('-p', '--params', default='l50,l62,lr.01,lr.02,lr.2,lr.5,lr1
 parser.add_argument('-m', '--metrics', default='loss_val_mean,acc_val_mean', type=str, help='metrics columns separated by commas for which the charts are based on ')
 parser.add_argument('-l', '--logs', default='logs/', type=str, help='logs default or logs-3, type for logs-3')
 parser.add_argument('-g', '--graphs', default=1, type=int, help='whether to plot graphs or not')
+parser.add_argument('-s', '--structures', default=0, type=int, help='compare accross structure')
 
 
 params_kv = {
@@ -52,7 +53,8 @@ def main():
             hyper_params=args.params,
             metrics=args.metrics,
             logs_dir=args.logs,
-            charts = args.graphs
+            charts = args.graphs,
+            across_structures =args.structures
             )
 
 def run(depths=[20,50,56,62,110], 
@@ -60,7 +62,8 @@ def run(depths=[20,50,56,62,110],
             hyper_params='lr.01,lr.02,lr.2,lr.5,lr1.0,e80,e320,mb64,mb256,rb0,rb2,rb3,sc1,sc3,td5,td2,l50,l62',
             metrics='loss_val_mean,acc_val_mean',
             logs_dir='logs/',
-            charts=False
+            charts=False,
+            across_structures=False
             ):
 
     metrics = metrics.split(",")
@@ -69,13 +72,66 @@ def run(depths=[20,50,56,62,110],
 
     list_of_hyper_param_variants += [params_kv.get(k) for k in hyper_params.split(",") if k in params_kv.keys()]
 
+    if across_structures:
+        get_metric_logs_across_structures(list_of_hyper_param_variants, metrics, depths, cifars, logs_dir, charts)
+        return
+
     logs_table = []
     for depth in depths:  
         for cifar in cifars:
             logs_table += get_metric_logs(list_of_hyper_param_variants, metrics, depth, cifar, logs_dir, charts)
     
     return logs_table
-       
+
+def plot_across_structures(depths, cifar, metric, hyper_param_variant, logs_dir = "logs/", img_dir = "public/structures"):
+    hp = ""
+    if hyper_param_variant:
+        hp = " @ " + hyper_param_variant 
+
+    chart_path = "{img_dir}/cifar-{cifar}".format(img_dir=img_dir,cifar=cifar)
+
+    os.makedirs(chart_path, exist_ok=True) 
+
+    
+
+    plot_diff_test = pd.DataFrame()
+    plot_diff_train = pd.DataFrame()
+
+    print_to_file_test = "{chart_path}/test-{layers}-{metric}{hyper}".format(chart_path=chart_path,layers="_".join(depths), metric=metric, img_dir=img_dir, hyper=hyper_param_variant)
+    print_to_file_train = "{chart_path}/train-{layers}-{metric}{hyper}".format(chart_path=chart_path,layers="_".join(depths), metric=metric, img_dir=img_dir, hyper=hyper_param_variant)
+
+    if os.path.isfile(print_to_file_test) and os.path.isfile(print_to_file_train):
+        return        
+
+    for depth in depths:
+        name = "resnet{depth}-cifar-{cifar}{hyper_param_variant}".format(depth=depth, cifar=cifar,hyper_param_variant=hyper_param_variant)
+
+        filename = "{logs_dir}resnet-{depth}/{name}.log".format(logs_dir=logs_dir, depth=depth, name=name)
+
+        if not os.path.isfile(filename):
+            continue
+        
+        dfs = get_test_and_train_logs(depth, cifar, hyper_param_variant, logs_dir)
+        
+        plot_diff_test[ "resnet-" + depth ] = dfs.get("test").get("df")[metric]
+        plot_diff_train[ "resnet-" + depth ] = dfs.get("train").get("df")[metric]   
+
+    
+    print_chart(print_to_file_test, plot_diff_test, metric.split("_")[0] + hp)
+    
+    print_chart(print_to_file_train, plot_diff_train, metric.split("_")[0] + hp)
+        
+def get_metric_logs_across_structures(list_of_hyper_param_variants, metrics, depths, cifars, logs_dir = "logs/", charts = False, img_dir = "public/structures"):
+
+    
+
+    for cifar in cifars:       
+        for metric in metrics:            
+            for hyper_param_variant in list_of_hyper_param_variants:                                        
+                plot_across_structures(depths, cifar, metric, hyper_param_variant, logs_dir)
+                
+    
+
 
 def get_metric_logs(list_of_hyper_param_variants, metrics, depth, cifar, logs_dir = "logs/", charts = False):
     logs_data_train = []
@@ -123,8 +179,8 @@ def get_metric_logs(list_of_hyper_param_variants, metrics, depth, cifar, logs_di
         logs_table.append(helper_kvs_dict)   
  
     if charts:
-        iterate_metrics(metrics, logs_data_test, depth, cifar, "test", dfs.get("prec"), logs_dir)
-        iterate_metrics(metrics, logs_data_train, depth, cifar, "train", dfs.get("prec"), logs_dir)
+        iterate_metrics(metrics, logs_data_test, depth, cifar, "test", "", logs_dir)
+        iterate_metrics(metrics, logs_data_train, depth, cifar, "train", "", logs_dir)
 
     return logs_table
 

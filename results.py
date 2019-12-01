@@ -154,6 +154,14 @@ def prepare_df_object(df, name ):
         "mean_avg_loss" : df.describe().loc["mean"]["loss_avg_mean"]
     }
 
+def print_chart(print_to_file, plot_diff, title):
+    if print_to_file and plot_diff.shape[0]:
+        print("writing to disk {f}".format(f=print_to_file))
+        plot = plot_diff.plot()
+
+        plt.title(title)
+        plt.savefig(print_to_file + ".png", dpi=144)
+        plt.close() 
 
 def compare_dfs(list_of_dicts_of_dfs, list_params, prec, print_to_file = ""):
     """ compare  reults of different logs """
@@ -176,13 +184,7 @@ def compare_dfs(list_of_dicts_of_dfs, list_params, prec, print_to_file = ""):
             plot_diff[ hyper + "_" + param] = df_obj.get("df")[param]
        
         
-        if print_to_file and plot_diff.shape[0]:
-            print("writing to disk {f}".format(f=print_to_file))
-            plot = plot_diff.plot()
-
-            plt.title(param + " prec: " + prec)
-            plt.savefig(print_to_file + ".png", dpi=144)
-            plt.close() 
+        print_chart(print_to_file, plot_diff, param)
         
         param_comparison[param] = plot_diff
 
