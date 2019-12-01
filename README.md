@@ -82,7 +82,7 @@ Otherwise, download the datasets and decompress them and put them in the ```data
 
 To view the charts in an interactive application, from the root folder run 
 
-```npm install && npm run```
+```npm install && npm start```
 
 this will start install the React dependencies for the app and run the appliction on http://localhost:3000 unless you make changes to the deployment. 
 
